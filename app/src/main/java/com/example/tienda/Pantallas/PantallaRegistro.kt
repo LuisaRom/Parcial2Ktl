@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
@@ -13,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.tienda.Producto
 
 @Composable
-fun RegistroProductoScreen(
+fun PantallaRegistro(
     onAgregarProducto: (Producto) -> Unit,
     onCancelar: () -> Unit
 ) {
@@ -23,98 +24,105 @@ fun RegistroProductoScreen(
     var precioTexto by remember { mutableStateOf("") }
     var descripcion by remember { mutableStateOf("") }
     var imagenUrl by remember { mutableStateOf("") }
+    var cantidad by remember { mutableStateOf(1) }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
-            .background(MaterialTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.background),
+        contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = "Agregar Nuevo Producto",
-            style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.primary
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        OutlinedTextField(
-            value = nombre,
-            onValueChange = { nombre = it },
-            label = { Text("Nombre del Producto") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        OutlinedTextField(
-            value = precioTexto,
-            onValueChange = { precioTexto = it },
-            label = { Text("Precio") },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        OutlinedTextField(
-            value = descripcion,
-            onValueChange = { descripcion = it },
-            label = { Text("Descripción") },
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp)
-        )
-
-        OutlinedTextField(
-            value = imagenUrl,
-            onValueChange = { imagenUrl = it },
-            label = { Text("URL de la Imagen") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
+                .padding(16.dp)
         ) {
-            Button(
-                onClick = {
-                    if (nombre.isBlank() || precioTexto.isBlank() || descripcion.isBlank() || imagenUrl.isBlank()) {
-                        Toast.makeText(context, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
-                        return@Button
-                    }
+            Text(
+                text = "Agregar Nuevo Producto",
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.primary
+            )
 
-                    val precio = precioTexto.toDoubleOrNull()
-                    if (precio == null) {
-                        Toast.makeText(context, "Precio inválido", Toast.LENGTH_SHORT).show()
-                        return@Button
-                    }
+            Spacer(modifier = Modifier.height(16.dp))
 
-                    val nuevoProducto = Producto(
-                        id = (0..100000).random(), // o usar un contador/autoincremento real
-                        nombre = nombre,
-                        precio = precio,
-                        descripcion = descripcion,
-                        imagenUrl = imagenUrl
-                    )
+            OutlinedTextField(
+                value = nombre,
+                onValueChange = { nombre = it },
+                label = { Text("Nombre del Producto") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
 
-                    onAgregarProducto(nuevoProducto)
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+            OutlinedTextField(
+                value = precioTexto,
+                onValueChange = { precioTexto = it },
+                label = { Text("Precio") },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            OutlinedTextField(
+                value = descripcion,
+                onValueChange = { descripcion = it },
+                label = { Text("Descripción") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+            )
+
+            OutlinedTextField(
+                value = imagenUrl,
+                onValueChange = { imagenUrl = it },
+                label = { Text("URL de la Imagen") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Guardar", color = MaterialTheme.colorScheme.onPrimary)
-            }
+                Button(
+                    onClick = {
+                        if (nombre.isBlank() || precioTexto.isBlank() || descripcion.isBlank() || imagenUrl.isBlank()) {
+                            Toast.makeText(context, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
+                            return@Button
+                        }
 
-            Button(
-                onClick = { onCancelar() },
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
-            ) {
-                Text("Cancelar", color = MaterialTheme.colorScheme.onSecondary)
+                        val precio = precioTexto.toDoubleOrNull()
+                        if (precio == null) {
+                            Toast.makeText(context, "Precio inválido", Toast.LENGTH_SHORT).show()
+                            return@Button
+                        }
+
+                        val nuevoProducto = Producto(
+                            id = (0..100000).random(),
+                            nombre = nombre,
+                            precioUnitario = precio,
+                            cantidad = cantidad,
+                            descripcion = descripcion,
+                            imagenUrl = imagenUrl
+                        )
+
+
+                        onAgregarProducto(nuevoProducto)
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                ) {
+                    Text("Guardar", color = MaterialTheme.colorScheme.onPrimary)
+                }
+
+                Button(
+                    onClick = { onCancelar() },
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+                ) {
+                    Text("Cancelar", color = MaterialTheme.colorScheme.onSecondary)
+                }
             }
         }
     }
 }
-
-
-

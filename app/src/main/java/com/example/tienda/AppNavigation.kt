@@ -12,7 +12,7 @@ import com.example.tienda.Pantallas.*
 fun AppNavigation(navController: NavHostController, viewModel: ProductoViewModel) {
     NavHost(navController = navController, startDestination = "catalogo") {
         composable("catalogo") {
-            CatalogoProductosScreen(
+            PantallaPrincipal(
                 productos = viewModel.productos,
                 carrito = viewModel.carrito,
                 navController = navController
@@ -20,7 +20,7 @@ fun AppNavigation(navController: NavHostController, viewModel: ProductoViewModel
         }
 
         composable("registro") {
-            RegistroProductoScreen(
+            PantallaRegistro(
                 onAgregarProducto = {
                     viewModel.agregarProducto(it)
                     navController.popBackStack()
@@ -36,7 +36,7 @@ fun AppNavigation(navController: NavHostController, viewModel: ProductoViewModel
             arguments = listOf(navArgument("productoId") { type = NavType.IntType })
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getInt("productoId")
-            DetalleProductoScreen(
+            PantallaDetalles(
                 productoId = id,
                 productos = viewModel.productos,
                 onAgregarAlCarrito = {
@@ -49,7 +49,7 @@ fun AppNavigation(navController: NavHostController, viewModel: ProductoViewModel
         }
 
         composable("carrito") {
-            CarritoScreen(
+            PantallaCarrito(
                 carrito = viewModel.carrito,
                 onFinalizarCompra = {
                     viewModel.limpiarCarrito()

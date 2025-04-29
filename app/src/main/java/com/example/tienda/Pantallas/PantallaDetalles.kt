@@ -75,9 +75,18 @@ fun PantallaDetalles(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        Text("Precio: $${producto.precio}", style = MaterialTheme.typography.titleMedium)
+        Text(
+            text = producto.descripcion,
+            style = MaterialTheme.typography.bodyMedium
+        )
+
         Spacer(modifier = Modifier.height(8.dp))
-        Text(producto.descripcion, style = MaterialTheme.typography.bodyMedium)
+
+        Text(
+            text = "Precio: $${producto.precioTotal}",
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.secondary
+        )
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -101,4 +110,3 @@ fun PantallaDetalles(
         }
     }
 }
-

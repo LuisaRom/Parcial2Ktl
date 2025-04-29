@@ -77,7 +77,7 @@ fun PantallaCarrito(
                             Column {
                                 Text(producto.nombre, style = MaterialTheme.typography.titleSmall)
                                 Text(
-                                    "Precio: $${producto.precio}",
+                                    "Precio: $${producto.precioTotal}",
                                     color = MaterialTheme.colorScheme.secondary
                                 )
                             }
@@ -89,7 +89,7 @@ fun PantallaCarrito(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Total a Pagar: $${String.format("%.2f", carrito.sumOf { it.precio })}",
+                text = "Total a Pagar: $${String.format("%.2f", carrito.sumOf { it.precioTotal })}",
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.align(Alignment.End),
                 color = MaterialTheme.colorScheme.primary

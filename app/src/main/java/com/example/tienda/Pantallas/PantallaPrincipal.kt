@@ -21,7 +21,7 @@ import com.example.tienda.Producto
 import com.example.tienda.R
 
 @Composable
-fun CatalogoProductosScreen(
+fun PantallaPrincipal(
     productos: List<Producto>,
     carrito: List<Producto>,
     navController: NavController
@@ -34,8 +34,45 @@ fun CatalogoProductosScreen(
             .background(MaterialTheme.colorScheme.background)
             .padding(16.dp)
     ) {
+
         Text(
-            text = "Total del Carrito: $${String.format("%.2f", carrito.sumOf { it.precio })}",
+            text = "Bienvenido a nuestra tienda virtual",
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Button(
+                onClick = { navController.navigate("registro") },
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                modifier = Modifier.fillMaxWidth(0.7f)
+            ) {
+                Text("Agregar Producto", color = MaterialTheme.colorScheme.onPrimary)
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
+                onClick = { navController.navigate("carrito") },
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+                modifier = Modifier.fillMaxWidth(0.7f)
+            ) {
+                Text("Ir al Carrito", color = MaterialTheme.colorScheme.onSecondary)
+            }
+        }
+
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = "Total del Carrito: $${String.format("%.2f", carrito.sumOf { it.precioTotal })}",
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.align(Alignment.End)
@@ -64,7 +101,7 @@ fun CatalogoProductosScreen(
                             painter = rememberAsyncImagePainter(
                                 model = producto.imagenUrl,
                                 placeholder = painterResource(R.drawable.cargando),
-                                error = painterResource(R.drawable.error),
+                                error = painterResource(R.drawable.error)
                             ),
                             contentDescription = producto.nombre,
                             modifier = Modifier
@@ -81,34 +118,13 @@ fun CatalogoProductosScreen(
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             Text(
-                                "Precio: $${producto.precio}",
+                                "Precio: $${producto.precioTotal}",
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.secondary
                             )
                         }
                     }
                 }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Button(
-                onClick = { navController.navigate("registro") },
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
-            ) {
-                Text("Agregar Producto", color = MaterialTheme.colorScheme.onPrimary)
-            }
-
-            Button(
-                onClick = { navController.navigate("carrito") },
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
-            ) {
-                Text("Ir al Carrito", color = MaterialTheme.colorScheme.onSecondary)
             }
         }
     }
